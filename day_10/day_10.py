@@ -33,6 +33,8 @@ def count_arrangements(nodes, idx = 0):
   for idx2 in range(idx + 1, len(nodes)):
     if nodes[idx2] - nodes[idx] <= 3:
       count += count_arrangements(nodes, idx2)
+    else: 
+      break
   
   count_memo[idx] = count
   return count_memo[idx]
@@ -44,7 +46,7 @@ for line in fileinput.input():
 
 # First Star
 jolt_diff = get_jolts_differences(nodes)
-# print(jolt_diff[1] * jolt_diff[3])
+print(jolt_diff[1] * jolt_diff[3])
 # Second Star
 nodes_arr = list(nodes)
 nodes_arr.sort()
