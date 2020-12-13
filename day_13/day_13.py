@@ -22,6 +22,7 @@ def crt(buses, differences):
   m = functools.reduce(operator.mul, buses, 1)
   for idx in range(len(buses)):
     partial_product = m // buses[idx]
+    # https://en.wikipedia.org/wiki/Modular_multiplicative_inverse
     inv_m = pow(partial_product, -1, buses[idx])
     remainder = buses[idx] - differences[idx] if differences[idx] != 0 else 0
     res += partial_product * inv_m * remainder
