@@ -71,31 +71,29 @@ def build_matrix(rules, nearby):
   return m
 
 visited = {}
-def get_from_matrix(m, row=0, sol=[], rows_taken=set(), cols_taken=set()):
+def get_from_matrix(m, row=0, sol=[], cols_taken=set()):
   if len(sol) == len(m):
     print("Sol Positions: ", sol)
     return sol
   
   for idx, class_valid in enumerate(m[row]):
     m_pos = (row, idx)
-    valid_pos = m_pos[0] not in rows_taken and m_pos[1] not in cols_taken
+    valid_pos = m_pos[1] not in cols_taken
 
     if class_valid and valid_pos:
-      new_rows_taken = rows_taken | set([m_pos[0]])
       new_cols_taken = cols_taken | set([m_pos[1]])
 
-      if (m_pos, str(new_rows_taken), str(new_cols_taken)) in visited:
+      if (m_pos, str(new_cols_taken)) in visited:
         return
 
       solution = get_from_matrix(
         m, 
         row + 1, 
         sol + [m_pos], 
-        new_rows_taken, 
         new_cols_taken
       )
       if solution : return solution
-      visited[(m_pos, str(new_rows_taken), str(new_cols_taken))] = True
+      visited[(m_pos, str(new_cols_taken))] = True
   return None
 
 def match_sol_with_cols(sol, rules):
