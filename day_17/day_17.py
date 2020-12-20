@@ -13,6 +13,7 @@ optionsz = ['z0','z1','z-1']
 optionsy = ['y0','y1','y-1']
 optionsx = ['x0','x1','x-1']
 
+# Getting all the possibilities of getting a position neighboor
 combined = []
 for z in optionsz:
   for y in optionsy:
@@ -22,6 +23,7 @@ for z in optionsz:
       else:
         combined.append([z,y,x])
 
+# Get the state for the cube position by the rules
 def define_state(z,y,x,cube):
   # Killing borders to forget about index out of range
   if (z-1 < 0 or z+1 >= len(cube)) : return '.'
@@ -29,7 +31,8 @@ def define_state(z,y,x,cube):
   if (y-1 < 0 or y+1 >= len(cube)) : return '.'
 
   active_neighboors = 0
- 
+  
+  # Check neighboors state
   for operations in combined:
     pos = {'z': z, 'y': y, 'x': x}
     for operation in operations:
@@ -60,6 +63,7 @@ def count_active(cube):
           active += 1
   return active
 
+# Adding the first layer of the cube at the center of an 25*25*25 cube (time and memory inefficient)
 def build_init_cube(lines, size = 25):
   cube = [[['.' for _x in range(0,size)] for _y in range(0,size)] for _z in range(0,size)]
   mid = size // 2

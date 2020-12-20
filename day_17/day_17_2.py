@@ -1,3 +1,10 @@
+##################
+# Very ineffincient way of solving the second problem. It requires some time to finish (around 5min)
+# We could improve it by (TODO):
+# 1. Don't use a preset cube, just add dimmensions to it as needed (Only in the places that is needed), we could use a hash for this
+# 2. Don't check the 80 neighboors everytime we check the state, there has to be a way to do it on the fly
+##################
+
 import fileinput
 import functools
 import re
@@ -13,6 +20,7 @@ optionsy = ['y0','y1','y-1']
 optionsx = ['x0','x1','x-1']
 optionsw = ['w0','w1','w-1']
 
+# Getting all the possibilities of getting a position neighboor
 combined = []
 for w in optionsw:
   for z in optionsz:
@@ -25,6 +33,7 @@ for w in optionsw:
 
 print("Combined options ready :", len(combined) )
 
+# Get the state for the cube position by the rules
 def define_state(w,z,y,x,cube):
   # Killing borders to forget about index out of range
   if (z-1 < 0 or z+1 >= len(cube)) : return '.'
@@ -34,6 +43,7 @@ def define_state(w,z,y,x,cube):
 
   active_neighboors = 0
  
+  # Check neighboors state
   for operations in combined:
     pos = {'w': w, 'z': z, 'y': y, 'x': x}
     for operation in operations:
@@ -66,6 +76,7 @@ def count_active(cube):
             active += 1
   return active
 
+# Adding the first layer of the cube at the center of an 25*25*25*25 cube (MORE time and memory inefficient)
 def build_init_cube(lines, size = 25):
   cube = [[[['.' for _x in range(0,size)] for _y in range(0,size)] for _z in range(0,size)] for _w in range(0,size)]
   mid = size // 2
