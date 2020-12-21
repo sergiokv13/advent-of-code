@@ -54,12 +54,6 @@ def get_image_corners(tiles_options):
 
   return corners
 
-
-def print_matrix(m):
-  for row in m:
-    print(row)
-  print()
-
 tiles = {}
 current_tile = []
 current_matrix = []
