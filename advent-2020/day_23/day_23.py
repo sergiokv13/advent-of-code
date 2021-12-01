@@ -7,6 +7,9 @@ from collections import deque
 import sys
 import numpy as np
 import copy
+from time import time
+
+init = time()
 
 def remove_next_n(cups, current, n):
   removed = []
@@ -84,3 +87,5 @@ for line in fileinput.input():
   # Slow but will work in around a minute or so
   cups_second = simulate_game(cups_second, first, 10000000)
   print(cups_second[1] * cups_second[cups_second[1]])
+
+  print(time() - init)
