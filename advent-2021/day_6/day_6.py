@@ -4,7 +4,7 @@ lanterfish = {}
 
 def inc_dict(my_dict, el, val):
   if my_dict.get(el): my_dict[el] += val
-  else: my_dict[el] = val;
+  else: my_dict[el] = val
 
 for line in fileinput.input():
   elems = [int(n) for n in line.split(',')]
