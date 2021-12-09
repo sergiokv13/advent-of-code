@@ -34,21 +34,10 @@ def get_basin_size_rec(matrix, i, j, visited):
   basin_count = 1
   val = matrix[i][j]
 
-  p = getp(matrix, i+1, j, None)
-  if p and p != 9 and val < p:
-    basin_count += get_basin_size_rec(matrix, i+1, j, visited)
-
-  p = getp(matrix, i-1, j, None)
-  if p and p != 9 and val < p:
-    basin_count += get_basin_size_rec(matrix, i-1, j, visited)
-
-  p = getp(matrix, i, j+1, None)
-  if p and p != 9 and val < p:
-    basin_count += get_basin_size_rec(matrix, i, j+1, visited)
-
-  p = getp(matrix, i, j-1, None)
-  if p and p != 9 and val < p:
-    basin_count += get_basin_size_rec(matrix, i, j-1, visited)
+  for pos in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+    p = getp(matrix, pos[0], pos[1], None)
+    if p and p != 9 and val < p:
+      basin_count += get_basin_size_rec(matrix, pos[0], pos[1], visited)
 
   return basin_count
 
