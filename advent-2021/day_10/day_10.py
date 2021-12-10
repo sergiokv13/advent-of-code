@@ -1,30 +1,15 @@
 import fileinput
 import math
 
+match_close = {'[': ']', '(': ')', '<': '>', '{': '}'}
+points1 = {')': 3, ']': 57, '}': 1197, '>': 25137}
+points2 = {')': 1, ']': 2, '}': 3, '>': 4}
 
-def match_close(el):
-  if el == '[': return ']'
-  if el == '(': return ')'
-  if el == '<': return '>'
-  if el == '{': return '}'
-
-def points(el):
-  if el == ')' : return 3
-  if el == ']' : return 57
-  if el == '}' : return 1197
-  if el == '>' : return 25137
-
-def points2(remaining):
+def score2(remaining):
   score = 0
-  def p(el):
-    if el == ')' : return 1
-    if el == ']' : return 2
-    if el == '}' : return 3
-    if el == '>' : return 4
-  
   for el in remaining:
     score *= 5
-    score += p(el)
+    score += points2[el]
 
   return score
 
@@ -37,7 +22,7 @@ def is_corrupted(line):
   for c in line:
     if is_open(c): stack.append(c)
     else:
-      if match_close(stack.pop()) != c:
+      if match_close[stack.pop()] != c:
         return c
   return False
 
@@ -46,7 +31,7 @@ def complete_line(line):
   for c in line:
     if is_open(c): stack.append(c)
     else: stack.pop()
-  return [match_close(el) for el in stack[::-1]]
+  return [match_close[el] for el in stack[::-1]]
     
 points_first_star = 0
 points_second_star = []
@@ -55,10 +40,10 @@ for line in fileinput.input():
   is_corr = is_corrupted(line)
 
   if is_corr:
-    points_first_star += points(is_corr)
+    points_first_star += points1[is_corr]
   else:
     remaining = complete_line(line)
-    points_second_star.append(points2(remaining))
+    points_second_star.append(score2(remaining))
 
 # First Star
 
