@@ -10,9 +10,7 @@ def score2(remaining):
   for el in remaining:
     score *= 5
     score += points2[el]
-
   return score
-
 
 def is_open(el):
   return el == '[' or el == '(' or el == '<' or el == '{'
