@@ -85,6 +85,8 @@ for i, ins in enumerate(instructions):
         mat = fold_x(mat, ins[1])
         print(f"Instruction #{i+1}: ", count_mat(mat))
 
+# # Second Star
+
 print_matrix(mat)
 
 
