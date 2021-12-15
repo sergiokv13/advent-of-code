@@ -5,6 +5,7 @@ import numpy as np
 import sys
 np.set_printoptions(threshold=sys.maxsize)
 
+# Todo, use heap or priority queue
 def pop_min(queue, dist):
     min_dist = float("inf")
     min_idx = None
