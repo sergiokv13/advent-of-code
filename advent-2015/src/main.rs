@@ -9,10 +9,16 @@ mod day_8;
 mod day_9;
 mod day_10;
 mod day_11;
+mod day_12;
+mod day_13;
+mod day_14;
+mod day_15;
+mod day_16;
+mod day_17;
 
 pub mod utils;
 fn main() {
-    let problem = 11;
+    let problem = 17;
 
     match problem {
         1 => day_1::solve().unwrap(),
@@ -26,6 +32,12 @@ fn main() {
         9 => day_9::solve().unwrap(),
         10 => day_10::solve().unwrap(),
         11 => day_11::solve().unwrap(),
+        12 => day_12::solve().unwrap(),
+        13 => day_13::solve().unwrap(),
+        14 => day_14::solve().unwrap(),
+        15 => day_15::solve().unwrap(),
+        16 => day_16::solve().unwrap(),
+        17 => day_17::solve().unwrap(),
 
         _ => println!("Not solved yet!")
     }

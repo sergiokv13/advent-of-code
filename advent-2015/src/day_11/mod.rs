@@ -88,15 +88,18 @@ fn get_next_str(curr_str: &mut Vec<char>){
 
 pub fn solve() -> Result<(), io::Error> {
     let lines = utils::get_lines("day_11");
-    let mut val = String::from("");
+    let mut _val = String::from("");
 
     for line in lines { 
-        val = line;
+        _val = line;
+        unsafe {
+            let mut v : Vec<char> = _val.as_mut_vec().iter().map(|x| *x as char).collect_vec();
+            get_next_str(&mut v);
+            println!("First Star: {:?} ", String::from_iter(v.iter()));
+            get_next_str(&mut v);
+            println!("Second Star: {:?} ", String::from_iter(v.iter()));
+        }
     }
-    unsafe {
-        let mut v : Vec<char> = val.as_mut_vec().iter().map(|x| *x as char).collect_vec();
-        get_next_str(&mut v);
-        println!("First Start: {:?} ", String::from_iter(v.iter()));
-    }
+
     return Ok(())
 }
