@@ -1,0 +1,11 @@
+[package]
+name = "advent-2015"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+md5 = "0.7.0"
+itertools = "0.8.2"
+serde_json = "1.0.89"
