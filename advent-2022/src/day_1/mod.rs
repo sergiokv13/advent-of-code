@@ -12,23 +12,21 @@ pub fn solve() -> Result<(), io::Error>{
     for line in lines {
         match line {
             x if x.is_empty() => {
-                calories.push(curr_vec.clone());
+                calories.push(curr_vec);
                 curr_vec = Vec::new();
             }
             _ => curr_vec.push(line.parse::<i32>().unwrap())
         }
     }
-    calories.push(curr_vec.clone());
+    calories.push(curr_vec);
 
-    let max_calories = calories.clone()
+    let sorted_vec : Vec<i32> = calories
         .into_iter()
         .map(|x| x.into_iter().sum::<i32>())
-        .max().unwrap();
+        .sorted().rev().collect();
 
-    let max_three : i32 = calories
-        .into_iter()
-        .map(|x| x.into_iter().sum::<i32>())
-        .sorted().rev().take(3).sum();
+    let max_calories = sorted_vec[0];
+    let max_three : i32 = sorted_vec[0..3].iter().sum();
     
     println!("First Star: {}", max_calories);
     println!("Second Star: {}", max_three);
