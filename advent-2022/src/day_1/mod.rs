@@ -1,7 +1,5 @@
 use std::{ io };
-
 use itertools::Itertools;
-
 use crate::utils;
 
 pub fn solve() -> Result<(), io::Error>{
