@@ -65,8 +65,6 @@ pub fn solve() -> Result<(), io::Error>{
         strategy2.push((*u1_map.get(&v_line[0]).unwrap(), v_line[1]));
     }
     
-    println!("{:?}", strategy2);
-
     println!("First Star: {}", get_score_1(&strategy1, &shape_points));
     println!("Second Star: {}", get_score_2(&strategy2, &shape_points));
 
