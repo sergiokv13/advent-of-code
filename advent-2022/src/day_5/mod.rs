@@ -39,14 +39,17 @@ pub fn solve() -> Result<(), io::Error>{
                     stack_idx += 1;
                 }
             }
-        } else {
-            moves.push(
-                line
-                    .replace("move ", "")
-                    .replace(" from ", " ")
-                    .replace(" to ", " ")
-                    .split(" ").map(|x| x.parse::<usize>().unwrap()).next_tuple().unwrap()
-            );
+        } else {   
+            match line.split_whitespace().collect::<Vec<_>>()[..] {
+                ["move", amount, "from", from, "to", to] => {
+                    moves.push((
+                        amount.parse::<usize>().unwrap(),
+                        from.parse::<usize>().unwrap(),
+                        to.parse::<usize>().unwrap(),
+                    ))
+                }
+                _ => unreachable!(),
+            }
         }
     }
     let mut reversed_stacks : Vec<Vec<char>> = stacks
