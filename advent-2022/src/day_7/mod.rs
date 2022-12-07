@@ -81,24 +81,11 @@ fn get_dir_size(
     return dir_size;
 }
 
-fn first_star( 
-    dirs: &HashMap<String, Vec<String>>, 
-    files: &HashMap<String, Vec<(i64,String)>>,
-    memo: &mut HashMap<String, i64>,
-) -> i64 {
-    let mut res: i64 = 0;
-    for key in dirs.keys() {
-        let size = get_dir_size(key.to_string(), dirs, files, memo);
-        if size <= 100000 {
-            res += size;
-        }
-    }
-    return res;
+fn first_star(memo: &HashMap<String, i64>) -> i64 {
+    return memo.values().filter(|x| **x <= 100000).sum::<i64>();
 }
 
-fn second_star(
-    memo: &HashMap<String, i64>,
-) -> i64 {
+fn second_star(memo: &HashMap<String, i64>) -> i64 {
     let free_space = 70000000 - memo.get("/").unwrap();
     let needed_space = 30000000 - free_space;
     return *memo.values().filter(|x| **x >= needed_space).min().unwrap();
@@ -111,8 +98,9 @@ pub fn solve() -> Result<(), io::Error>{
     let mut memo : HashMap<String, i64> = HashMap::new(); 
 
     build_structure(&lines, &mut dirs, &mut files);
+    get_dir_size("/".to_string(), &dirs, &files, &mut memo);
         
-    println!("First Star: {:?}", first_star(&dirs, &files, &mut memo));
+    println!("First Star: {:?}", first_star(&memo));
     println!("Second Star: {:?}",second_star(&memo));
 
     return Ok(())
