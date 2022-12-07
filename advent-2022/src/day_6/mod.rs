@@ -15,7 +15,7 @@ pub fn solve() -> Result<(), io::Error>{
     let signal = lines.next().unwrap();
     
     println!("First Star: {:?}",get_first_marker(&signal, 4));
-    println!("First Star: {:?}",get_first_marker(&signal, 14));
+    println!("Second Star: {:?}",get_first_marker(&signal, 14));
 
     return Ok(())
 }
