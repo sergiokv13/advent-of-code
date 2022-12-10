@@ -7,10 +7,11 @@ mod day_6;
 mod day_7;
 mod day_8;
 mod day_9;
+mod day_10;
 
 pub mod utils;
 fn main() {
-    let problem = 9;
+    let problem = 10;
 
     match problem {
         1 => day_1::solve().unwrap(),
@@ -22,6 +23,7 @@ fn main() {
         7 => day_7::solve().unwrap(),
         8 => day_8::solve().unwrap(),
         9 => day_9::solve().unwrap(),
+        10 => day_10::solve().unwrap(),
 
 
         _ => println!("Not solved yet!")
