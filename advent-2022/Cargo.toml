@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-md5 = "0.7.0"
 itertools = "0.8.2"
+eval = "0.4.3"
 serde_json = "1.0.89"
