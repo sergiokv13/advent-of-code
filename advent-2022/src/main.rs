@@ -18,6 +18,9 @@ pub mod utils;
 fn main() {
     let problem = 15;
 
+    use std::time::Instant;
+    let now = Instant::now();
+
     match problem {
         1 => day_1::solve().unwrap(),
         2 => day_2::solve().unwrap(),
@@ -37,4 +40,7 @@ fn main() {
 
         _ => println!("Not solved yet!")
     }
+
+    let elapsed = now.elapsed();
+    println!("Running time: {:.2?}", elapsed);
 }

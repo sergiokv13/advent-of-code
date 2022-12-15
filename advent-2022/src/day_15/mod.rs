@@ -51,7 +51,7 @@ fn get_busy_intervals_on_y(
         let sensor_rad_on_y = (sensor_rad - (y - sensor.1).abs()).abs();
 
         if (sensor.1 - y).abs() <= sensor_rad {
-            let local_range = (sensor.0 - sensor_rad_on_y + 0, sensor.0 + sensor_rad_on_y+0); 
+            let local_range = (sensor.0 - sensor_rad_on_y, sensor.0 + sensor_rad_on_y); 
             busy_ranges_y.push(local_range);
 
         }
@@ -71,20 +71,45 @@ fn find_freq(
     sensor_vs_dist : &HashMap<(i128,i128), i128>, 
     range : (i128,i128) 
 ) -> i128 {
-    let mut pos : (i128, i128) = (0,0);
+    // find candidate ranges
+   let candidates= (|| {
+        let mut candidates : Vec::<(i128,i128)> = Vec::new();
 
-    for i in range.0..range.1+1{
-        let busy_intervals = get_busy_intervals_on_y(sensor_vs_dist, i);
-        for (i1, i2) in busy_intervals.iter().tuple_windows() {
-            for free in i1.1+1..i2.0 {
-                if free >= range.0 && free <= range.1 {
-                    pos = (i,free);
-                    return pos.1 * 4000000 + pos.0;
+        for s1 in sensor_vs_dist.keys() {
+            for s2 in sensor_vs_dist.keys() {
+                if s1 == s2 { continue }
+                let ls1 = if s1.0 < s2.0 { s1 } else { s2 };
+                let ls2 = if s1.0 < s2.0 { s2 } else { s1 };
+
+                let d1 = sensor_vs_dist.get(ls1).unwrap();
+                let d2 = sensor_vs_dist.get(ls2).unwrap();
+                let sensor_2_rad_on_y = (d2 - (ls1.1 - ls2.1).abs()).abs();
+
+                if ((ls1.0 + d1-1) - (ls2.0 - sensor_2_rad_on_y+1)).abs() == 2 {
+                    candidates.push((
+                        ls1.0.min(ls2.0), 
+                        ls1.0.max(ls2.0)
+                    ));
+                }
+            }
+        }
+        merge_ranges(&mut candidates);
+        return candidates;
+    })();
+
+    for candidate in candidates {
+        for i in candidate.0..candidate.1{
+            let busy_intervals = get_busy_intervals_on_y(sensor_vs_dist, i);
+            for (i1, i2) in busy_intervals.iter().tuple_windows() {
+                for free in i1.1+1..i2.0 {
+                    if free >= range.0 && free <= range.1 {
+                        return free * 4000000 + i;
+                    }
                 }
             }
         }
     }
-    return pos.1 * 4000000 + pos.0;
+    return 0;
 }
 
 pub fn solve() -> Result<(), io::Error> {
