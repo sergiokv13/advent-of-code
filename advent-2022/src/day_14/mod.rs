@@ -143,11 +143,11 @@ pub fn solve() -> Result<(), io::Error> {
     let (border_x, border_y) = get_borders(&cave);
 
 
-    let count_rest = simulate_drops(&mut cave.clone(), border_x, border_y, false, true);
-    // let count_rest2 = simulate_drops(&mut cave, border_x, (border_y.0, border_y.1+2), true, false);
+    let count_rest = simulate_drops(&mut cave.clone(), border_x, border_y, false, false);
+    let count_rest2 = simulate_drops(&mut cave, border_x, (border_y.0, border_y.1+2), true, false);
 
     println!("First Star: {:?}", count_rest);
-    // println!("Second Star: {:?}", count_rest2);
+    println!("Second Star: {:?}", count_rest2);
 
     return Ok(())
 }
