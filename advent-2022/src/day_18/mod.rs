@@ -46,6 +46,9 @@ pub fn is_free(
 
         for &neighboor in neighboors {
             if neighboor == dest {
+                for v in visited {
+                    memo.insert(v, true);
+                }
                 memo.insert(air_cube, true);
                 return true 
             }
@@ -56,7 +59,9 @@ pub fn is_free(
         }
     }
 
-    memo.insert(air_cube, false);
+    for v in visited {
+        memo.insert(v, false);
+    }
     return false;
 }
 
