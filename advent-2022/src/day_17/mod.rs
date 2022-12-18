@@ -3,6 +3,9 @@ use std::{ io, thread::sleep, borrow::BorrowMut };
 
 use crate::utils::{get_lines};
 
+// This parameter required some fine tuning
+const MAX_NUMBER_BEFORE_PATTERN: usize = 10000;
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum RockType {
     HorizontalLine,
@@ -175,7 +178,6 @@ fn go_sideways( rock: RockType, grid : &mut Vec<[char;7]>, cmd: char, l: usize, 
     return (l + 1, true);
 }
 
-
 fn simulate_rock_fall(
     rock : RockType,  
     grid : &mut Vec<[char;7]>,  
@@ -242,13 +244,8 @@ fn simulate_n(
 
     let mut lvl_diff : Vec<usize> = Vec::new();
 
-    // Example:
-    // let offset : usize = 15;
-    // let pattern_len: usize = 35;
-
-    // Input
-    let offset: usize = 64;
-    let pattern_len : usize = 3420;
+    let mut offset : usize = 0;
+    let mut pattern_len : usize = 0;
 
     let mut calculate_with_pattern = true;
 
@@ -272,10 +269,27 @@ fn simulate_n(
             calculate_with_pattern = false;
             break;
         }
-        if counter == (offset + pattern_len) as i128 { break }
+
+        if counter == MAX_NUMBER_BEFORE_PATTERN as i128 { break }
     }
 
     if calculate_with_pattern {
+
+        // we need to get the offset and the pattern len
+        // we will do this by using windows and finding a contigous seq
+        for o in 0..lvl_diff.len() {
+
+            for i in 2..lvl_diff.len() {
+                let mut chunks = lvl_diff[o..].chunks_exact(i);
+                if chunks.len() < 2 { continue }
+                let first = chunks.next().unwrap().to_vec();
+                if chunks.all(|chunk| chunk.to_vec() == first) {
+                    offset = o;
+                    pattern_len = i;
+                    break;
+                }
+            }
+        }
 
         let mut max_lvl : i128 = lvl_diff.iter().take(offset as usize).map(|&x| x as i128).sum();
 
@@ -285,16 +299,18 @@ fn simulate_n(
             .map(|x| x as i128)
             .sum();
     
-        let known_reps = (number_of_rocks - counter as i128) / pattern_len as i128;
+        let known_reps = (number_of_rocks - (offset + pattern_len) as i128) / pattern_len as i128;
         max_lvl += rep_height * (known_reps + 1);
+
     
-        let remaining = (number_of_rocks - counter as i128) % pattern_len as i128;
+        let remaining = (number_of_rocks - (offset + pattern_len) as i128) % pattern_len as i128;
         
-        max_lvl += lvl_diff[offset..]
+        max_lvl += lvl_diff[offset..(offset+pattern_len)]
             .iter()
             .take(remaining as usize)
             .map(|&x| x as i128)
             .sum::<i128>();
+
     
         return max_lvl as i128;
     }
