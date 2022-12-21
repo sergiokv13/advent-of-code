@@ -46,20 +46,11 @@ fn perform_mixing(original: &Vec<(i128,i128)>, current: &Vec<(i128,i128)>) -> Ve
 fn decrypt(nums: &Vec<i128>, mixins: usize) -> i128 {
     let original = nums.iter().enumerate().map(|(idx,&x)| (idx as i128,x)).collect_vec();
     let current = original.clone();
-    // println!("Initial");
-    // println!("{:?}", nums);
-    // println!();
 
     let mut current = perform_mixing(&original, &current);
-    // println!("Finishing mix number: {:?}", 1);
-    // println!("{:?}", current.iter().map(|x| x.1).collect_vec());
-    // println!();
 
-    for i in 1..mixins {
+    for _i in 1..mixins {
         current = perform_mixing(&original, &current);
-        // println!("Finishing mix number: {:?}", i+1);
-        // println!("{:?}", current.iter().map(|x| x.1).collect_vec());
-        // println!();
     }
     
     let mut mixed_nums_iter = current.iter().cycle();

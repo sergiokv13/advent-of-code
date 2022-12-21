@@ -18,10 +18,11 @@ mod day_17;
 mod day_18;
 mod day_19;
 mod day_20;
+mod day_21;
 
 pub mod utils;
 fn main() {
-    let problem = 20;
+    let problem = 21;
 
     use std::time::Instant;
     let now = Instant::now();
@@ -47,6 +48,7 @@ fn main() {
         18 => day_18::solve().unwrap(),
         19 => day_19::solve().unwrap(),
         20 => day_20::solve().unwrap(),
+        21 => day_21::solve().unwrap(),
 
         _ => println!("Not solved yet!")
     }
