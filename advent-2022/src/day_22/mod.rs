@@ -10,7 +10,7 @@ enum CubeConfiguration {
     //    1
     //  234
     //    56
-    First,
+    _First,
     //    12
     //    3
     //   45
@@ -33,7 +33,7 @@ fn rotate(direction: char, command: char) -> char {
 }
 
 // Cubes need to be converted to first configuration for this step
-fn wrap_cube_first(
+fn _wrap_cube_first(
     curr_pos: (usize, usize),
     curr_cube: usize,
     size: usize,
@@ -215,7 +215,7 @@ fn simulate_cube(
     }
 
     match configuration {
-        CubeConfiguration::First => {
+        CubeConfiguration::_First => {
             match curr_cube {
                 1 => return ((curr_pos.0, curr_pos.1 + size * 2), curr_dir),
                 
@@ -300,19 +300,19 @@ fn simulate_flat(grid: &Vec<Vec<char>>, commands: Vec<String>) -> ((usize, usize
 }
 
 fn get_password(grid: &Vec<Vec<char>>, commands: Vec<String>, configuration: CubeConfiguration) -> i128 {
-    let (mut final_pos, mut dir) = ((0,0), '>');
+    let (mut _final_pos, mut _dir) = ((0,0), '>');
     match configuration {
-        CubeConfiguration::Flat => (final_pos, dir) = simulate_flat(grid, commands),
-        _ => (final_pos, dir) = simulate_cube(grid, commands, configuration),
+        CubeConfiguration::Flat => (_final_pos, _dir) = simulate_flat(grid, commands),
+        _ => (_final_pos, _dir) = simulate_cube(grid, commands, configuration),
     }
 
-    final_pos = (final_pos.0 + 1, final_pos.1 + 1);
+    _final_pos = (_final_pos.0 + 1, _final_pos.1 + 1);
 
-    match dir {
-        '>' => (0 + 1000 * final_pos.0 + 4 * final_pos.1) as i128,
-        '<' => (2 + 1000 * final_pos.0 + 4 * final_pos.1) as i128,
-        'v' => (1 + 1000 * final_pos.0 + 4 * final_pos.1) as i128,
-        '^' => (3 + 1000 * final_pos.0 + 4 * final_pos.1) as i128,
+    match _dir {
+        '>' => (0 + 1000 * _final_pos.0 + 4 * _final_pos.1) as i128,
+        '<' => (2 + 1000 * _final_pos.0 + 4 * _final_pos.1) as i128,
+        'v' => (1 + 1000 * _final_pos.0 + 4 * _final_pos.1) as i128,
+        '^' => (3 + 1000 * _final_pos.0 + 4 * _final_pos.1) as i128,
         _ => unreachable!()
     }
 }
