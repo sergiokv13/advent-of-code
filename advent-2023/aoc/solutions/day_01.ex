@@ -1,6 +1,6 @@
 defmodule DAY01 do
   def first_star() do
-    File.read!("inputs/day_01.input")
+    File.read!("inputs/day_02.input")
     |> String.split("\n")
     |> Enum.map(&String.replace(&1, ~r/\D/, ""))
     |> Enum.map(fn nums -> "#{String.first(nums)}#{String.last(nums)}" end)
