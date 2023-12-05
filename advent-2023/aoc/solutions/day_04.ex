@@ -40,12 +40,12 @@ defmodule DAY04 do
   def get_cards(points_by_card, cards, todo) do
     {cidx, todo} = List.pop_at(todo, 0)
     cards = [(cidx) | cards]
-
     card_p = Map.get(points_by_card, cidx)
     todo = if card_p >= 1, do: Enum.reduce(1..card_p, todo, fn idx, acc -> [(idx + cidx) | acc] end), else: todo
 
     get_cards( points_by_card, cards, todo)
   end
+
 
   def second_star() do
     idx_points = get_card_points() |> Enum.with_index(1)
