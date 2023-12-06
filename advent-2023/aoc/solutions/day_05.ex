@@ -78,7 +78,7 @@ defmodule DAY05 do
     { seeds, maps } = parse_input()
 
     seeds = Enum.chunk_every(seeds,2)
-    |> Enum.map(fn [start, size] -> start..(start+size-1) end)\
+    |> Enum.map(fn [start, size] -> start..(start+size-1) end)
 
     navigate(seeds, maps)
     |> Enum.map(fn si.._ -> si end)
