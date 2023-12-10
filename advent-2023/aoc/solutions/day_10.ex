@@ -149,7 +149,7 @@ defmodule DAY10 do
 
   def second_star() do
     {_, pipe, visited} = first_star()
-    {graph, _, elements, size } = build_graph(pipe)
+    {graph, _, elements, _ } = build_graph(pipe)
 
     {_, min_x} = Enum.min_by(visited, fn {_,x} -> x end)
     {y,x} = Enum.filter(visited, fn {_,x} -> x == min_x end) |> Enum.min_by(fn {y,_} -> y end)
@@ -161,5 +161,3 @@ defmodule DAY10 do
     |> Enum.count(fn {_, el} -> el == "X" end)
   end
 end
-
-# 6682
