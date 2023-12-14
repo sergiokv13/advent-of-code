@@ -51,7 +51,7 @@ defmodule DAY14 do
   mat =  parse_input()
 
   # iterations = 1000000000
-  consolidation_point = 1000 # Min positive number of squares to get to iterations
+  consolidation_point = 1000 # Min integer number of iteration roots
 
   {_, seq} = (1..consolidation_point) |> Enum.reduce({mat, []}, fn _, {acc_mat, seq} ->
     new_mat = (1..4) |> Enum.reduce(acc_mat, fn _, acc_i ->
