@@ -12,16 +12,23 @@ defmodule DAY14 do
 
   def collapse([]), do: []
   def collapse(els) do
-    head = hd(els)
-    next_seq = collapse(tl(els))
+    cached = Process.get({"collapse", els})
+    if cached do
+      cached
+    else
+      head = hd(els)
+      next_seq = collapse(tl(els))
 
-    next = if next_seq == [], do: nil, else: hd(next_seq)
-    rest = if next, do: tl(next_seq), else: []
+      next = if next_seq == [], do: nil, else: hd(next_seq)
+      rest = if next, do: tl(next_seq), else: []
 
-    cond do
-      head == "O" && next == "." -> [next] ++ collapse([head] ++ rest)
-      next == nil -> [head]
-      true -> [head] ++ [next] ++ rest
+      res = cond do
+        head == "O" && next == "." -> [next] ++ collapse([head] ++ rest)
+        next == nil -> [head]
+        true -> [head] ++ [next] ++ rest
+      end
+      Process.put({"collapse", els}, res)
+      res
     end
   end
 
@@ -34,10 +41,16 @@ defmodule DAY14 do
   end
 
   def rotate(mat) do
-    0..(Enum.count(mat)-1)
-    |> Enum.map(fn idx ->
-      Enum.reverse(Enum.map(mat, fn row -> Enum.at(row, idx) end))
-    end)
+    cached = Process.get({"rotate", mat})
+    if cached do cached
+    else
+      rotated = 0..(Enum.count(mat)-1)
+      |> Enum.map(fn idx ->
+        Enum.reverse(Enum.map(mat, fn row -> Enum.at(row, idx) end))
+      end)
+      Process.put({"rotate", mat}, rotated)
+      rotated
+    end
   end
 
   def first_star() do
@@ -51,7 +64,7 @@ defmodule DAY14 do
   mat =  parse_input()
 
   # iterations = 1000000000
-  consolidation_point = 1000 # Min integer number of iteration roots
+  consolidation_point = 10000 # magic number (10k, 100k)
 
   {_, seq} = (1..consolidation_point) |> Enum.reduce({mat, []}, fn _, {acc_mat, seq} ->
     new_mat = (1..4) |> Enum.reduce(acc_mat, fn _, acc_i ->
