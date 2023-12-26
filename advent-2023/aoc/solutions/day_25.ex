@@ -16,8 +16,8 @@ defmodule DAY25 do
   end
 
 
-  def get_longest_path([], _, _ , _, parent, nil), do: parent
-  def get_longest_path([], _, _ , _, parent, ln) do
+  def get_path([], _, _ , _, parent, nil), do: parent
+  def get_path([], _, _ , _, parent, ln) do
     Enum.reduce_while(parent, [ln], fn _, acc ->
       current = hd(acc)
       curr_p = Map.get(parent, current, nil)
@@ -32,7 +32,7 @@ defmodule DAY25 do
     |> Enum.reject(fn el -> Enum.count(el) < 2 end)
   end
 
-  def get_longest_path(queue, graph, skip, visited, parent, ln) do
+  def get_path(queue, graph, skip, visited, parent, ln) do
     [current | rest] = queue
     visited = MapSet.put(visited, current)
     neighboors = (Map.get(graph, current)
@@ -47,7 +47,7 @@ defmodule DAY25 do
       Map.put(acc, n, current)
     end)
 
-    get_longest_path(
+    get_path(
       queue,
       graph,
       skip,
@@ -63,7 +63,7 @@ defmodule DAY25 do
     Enum.map(connections, fn conn ->
       skip = MapSet.put(skip, conn)
 
-      connections = get_longest_path([root], graph, skip, MapSet.new(), %{}, ln)
+      connections = get_path([root], graph, skip, MapSet.new(), %{}, ln)
 
       if (Enum.empty?(connections)), do: Process.put("skip", skip)
 
@@ -92,7 +92,7 @@ defmodule DAY25 do
           # most of the selected points will be on different parts of the graph
           # so this should try just a couple of times
 
-          connections = get_longest_path(
+          connections = get_path(
             [root],
             graph,
             MapSet.new([]),
@@ -112,7 +112,7 @@ defmodule DAY25 do
 
     [root, _] = get_random_elements(all_nodes, 2)
     # Now let's count the cycles
-    first_cycle_len = get_longest_path(
+    first_cycle_len = get_path(
       [root],
       graph,
       skip,
